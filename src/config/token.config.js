@@ -1,7 +1,5 @@
 import jwt from "jsonwebtoken"
 import { config } from "dotenv"
-import { header } from "express-validator"
-import { createHash } from "crypto"
 
 config()
 
@@ -24,8 +22,4 @@ export const verifyToken = (token, access = true) => {
   }
 
   return jwt.verify(token, secret)
-}
-
-export const hashRefreshToken = (refreshToken) => {
-  return createHash("md5").update(refreshToken).digest("hex")
 }
