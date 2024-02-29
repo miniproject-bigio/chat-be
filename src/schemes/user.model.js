@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize"
 import sequelize from "../config/db.config.js"
 import { v4 as uuidv4 } from "uuid"
+import AccessToken from "./token.model.js"
 
 const User = sequelize.define("User", {
   id: {
@@ -20,9 +21,12 @@ const User = sequelize.define("User", {
   },
   isAdmin: {
     type: DataTypes.BOOLEAN,
-    allowNull: false,
+    allowNull: true,
     defaultValue: false,
   },
 })
+
+User.hasMany(AccessToken, { foreignKey: "userId" })
+AccessToken.belongsTo(User, { foreignKey: "userId" })
 
 export default User

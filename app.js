@@ -1,15 +1,9 @@
 import express from "express"
 import cors from "cors"
-import http from "http"
 import { Server } from "socket.io"
-import Message from "./src/schemes/message.model.js"
-import User from "./src/schemes/user.model.js"
-import sequelize from "./src/config/db.config.js"
 import routes from "./src/routes/routes.js"
 
 const app = express()
-const server = http.createServer(app)
-const io = new Server(server)
 
 const port = process.env.DEV_PORT
 const host = process.env.DEV_HOST
@@ -24,7 +18,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors(corsOptions))
 
 app.get("/", function (req, res) {
-  res.send(`Hello World`)
+  res.send(`use /v1/api`)
 })
 
 app.use("/v1/api", routes)
@@ -38,13 +32,21 @@ app.use("/v1/api", routes)
 //     console.error("Error syncing database:", error)
 //   })
 
+const io = new Server({ cors: "http://localhost:3002" })
+
 io.on("connection", (socket) => {
-  console.log("A user connected")
+  console.log("A user connected", socket.id)
+
+  socket.on("clientMessage", (data) => {
+    console.log("Received message from client:", data)
+  })
 
   socket.on("disconnect", () => {
-    console.log("User disconnected")
+    console.log("A user disconnected", socket.id)
   })
 })
+
+io.listen(3000)
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port} http://${host}:${port}`)

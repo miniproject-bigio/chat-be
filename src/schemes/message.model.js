@@ -11,9 +11,17 @@ const Message = sequelize.define("Message", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  senderId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+  },
+  receiverId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+  },
 })
 
-Message.belongsTo(User, { foreignKey: "senderId" })
-User.hasMany(Message, { foreignKey: "senderId" })
+Message.belongsTo(User, { foreignKey: "senderId", as: "sender" })
+Message.belongsTo(User, { foreignKey: "receiverId", as: "receiver" })
 
 export default Message
