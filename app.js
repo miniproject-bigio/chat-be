@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors"
 import { Server } from "socket.io"
 import routes from "./src/routes/routes.js"
+import sequelize from "./src/config/db.config.js"
 
 const app = express()
 
@@ -39,6 +40,11 @@ io.on("connection", (socket) => {
 
   socket.on("clientMessage", (data) => {
     console.log("Received message from client:", data)
+  })
+
+  socket.on("message", (message) => {
+    console.log("Received message:", message)
+    io.emit("message", message)
   })
 
   socket.on("disconnect", () => {

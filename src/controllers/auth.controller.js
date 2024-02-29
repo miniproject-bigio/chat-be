@@ -56,9 +56,13 @@ export const loginUser = async (req, res) => {
 
 export const signOutUser = async (req, res) => {
   try {
-    const userId = req.user.id
+    const { userId } = req.body
 
-    await AccessToken.destroy({ where: { userId } })
+    if (!userId) {
+      return res.status(400).json({ error: "Invalid userId in request body" })
+    }
+
+    await AccessToken.destroy({ where: { userId: userId } })
 
     res.status(200).json({ message: "Sign-out successful" })
   } catch (error) {
