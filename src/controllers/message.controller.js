@@ -1,8 +1,19 @@
 import Message from "../schemes/message.model.js"
 import User from "../schemes/user.model.js"
+import { verifyToken } from "../config/token.config.js"
 
 export const getAllMessages = async (req, res) => {
   try {
+    const { authorization, access_token } = req.headers
+
+    if (!authorization || !authorization.startsWith("Bearer ")) {
+      return res.status(401).json({
+        status: 401,
+        message: "Unauthorized: Bearer token required",
+      })
+    }
+
+    verifyToken(access_token)
     const messages = await Message.findAll({ include: ["sender", "receiver"] })
 
     const formattedMessages = messages.map((message) => ({
