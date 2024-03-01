@@ -6,7 +6,7 @@ A Mini Project from BIGIO.ID that interacts between the server and client using 
 
 This is some routes that I created.
 
-<image src="./public/routes.png" />
+![Routes](./public/routes.png)
 
 ## Table of Contents
 
