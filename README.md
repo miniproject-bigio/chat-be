@@ -4,6 +4,10 @@
 
 A Mini Project from BIGIO.ID that interacts between the server and client using [socket.io](https://socket.io/)
 
+This is some routes that I created.
+
+<image src="./public/routes.png" />
+
 ## Table of Contents
 
 - [Introduction](#introduction)
