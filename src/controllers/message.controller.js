@@ -14,6 +14,7 @@ export const getAllMessages = async (req, res) => {
     }
 
     verifyToken(access_token)
+
     const messages = await Message.findAll({ include: ["sender", "receiver"] })
 
     const formattedMessages = messages.map((message) => ({
@@ -31,8 +32,17 @@ export const getAllMessages = async (req, res) => {
 
 export const sendMessage = async (req, res) => {
   try {
+    const { authorization, access_token } = req.headers
     const { content, senderId, receiverId } = req.body
 
+    if (!authorization || !authorization.startsWith("Bearer ")) {
+      return res.status(401).json({
+        status: 401,
+        message: "Unauthorized: Bearer token required",
+      })
+    }
+
+    verifyToken(access_token)
     const [sender, receiver] = await Promise.all([User.findByPk(senderId), User.findByPk(receiverId)])
 
     if (!sender || !receiver) {

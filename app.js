@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors"
 import { Server } from "socket.io"
 import routes from "./src/routes/routes.js"
+import Message from "./src/schemes/message.model.js"
 import sequelize from "./src/config/db.config.js"
 
 const app = express()

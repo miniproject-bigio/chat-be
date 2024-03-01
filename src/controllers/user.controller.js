@@ -1,4 +1,5 @@
 import User from "../schemes/user.model.js"
+import { verifyToken } from "../config/token.config.js"
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -19,6 +20,7 @@ export const getAllUsers = async (req, res) => {
 export const getUserByUUID = async (req, res) => {
   try {
     const { uuid } = req.params
+
     const user = await User.findOne({
       where: {
         id: uuid,

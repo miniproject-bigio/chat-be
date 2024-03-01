@@ -18,6 +18,6 @@ routes.get("/user/:uuid", getUserByUUID)
 
 // messages
 routes.get("/message", tokenValidation(), getAllMessages)
-routes.post("/message", sendMessage)
+routes.post("/message", tokenValidation(), sendMessage)
 
 export default routes
