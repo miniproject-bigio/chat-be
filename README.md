@@ -51,6 +51,8 @@ You can start editing the page by modifying `app.js`. The page auto-updates as y
 - sequelize
 - socket.io
 - uuid
+- jest unit test
+- jest coverage test
 
 ## Project Structure
 
