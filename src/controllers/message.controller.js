@@ -25,8 +25,7 @@ export const getAllMessages = async (req, res) => {
 
     res.status(200).json(formattedMessages)
   } catch (error) {
-    console.error("Error retrieving messages:", error)
-    res.status(500).json({ error: "Internal server error" })
+    res.status(500).json({ error: error })
   }
 }
 
@@ -53,11 +52,6 @@ export const sendMessage = async (req, res) => {
 
     res.status(201).json({ message: "Message sent successfully", data: newMessage })
   } catch (error) {
-    console.error("Error sending message:", error)
-
-    console.error("Request Body:", req.body)
-    console.error("Error Stack Trace:", error.stack)
-
-    res.status(500).json({ error: "Internal server error" })
+    res.status(500).json({ error: error })
   }
 }

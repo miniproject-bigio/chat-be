@@ -1,5 +1,4 @@
 import User from "../schemes/user.model.js"
-import { verifyToken } from "../config/token.config.js"
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -12,7 +11,6 @@ export const getAllUsers = async (req, res) => {
 
     res.status(200).json({ data: formattedUsers })
   } catch (error) {
-    console.error("Error retrieving users:", error)
     res.status(500).json({ error: "Internal server error" })
   }
 }
@@ -34,7 +32,6 @@ export const getUserByUUID = async (req, res) => {
 
     res.status(200).json(user)
   } catch (error) {
-    console.error("Error retrieving user by UUID:", error)
     res.status(500).json({ error: "Internal server error" })
   }
 }

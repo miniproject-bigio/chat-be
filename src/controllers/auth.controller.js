@@ -20,7 +20,6 @@ export const createUser = async (req, res) => {
     const newUser = await User.create({ username, password: hashedPassword, isAdmin })
     res.status(201).json({ message: "User created successfully", data: newUser })
   } catch (error) {
-    console.error("Error creating user:", error)
     res.status(500).json({ error: "Internal server error" })
   }
 }
@@ -36,21 +35,20 @@ export const loginUser = async (req, res) => {
     const user = await User.findOne({ where: { username } })
 
     if (!user) {
-      return res.status(401).json({ error: "Invalid credentials" })
+      return res.status(401).json({ error: "Username does not exist in database" })
     }
 
     const passwordMatch = await bcryptjs.compare(password, user.password)
 
     if (!passwordMatch) {
-      return res.status(401).json({ error: "Invalid credentials" })
+      return res.status(401).json({ error: "Invalid password" })
     }
 
     const accessToken = generateToken({ userId: user.id })
     await AccessToken.create({ token: accessToken, userId: user.id })
     res.status(200).json({ message: "Login successful", data: { user, accessToken } })
   } catch (error) {
-    console.error("Error logging in user:", error)
-    res.status(500).json({ error: "Internal server error" })
+    res.status(500).json({ error: error })
   }
 }
 
@@ -66,8 +64,7 @@ export const signOutUser = async (req, res) => {
 
     res.status(200).json({ message: "Sign-out successful" })
   } catch (error) {
-    console.error("Error signing out:", error)
-    res.status(500).json({ error: "Internal server error" })
+    res.status(500).json({ error: error })
   }
 }
 
@@ -90,7 +87,6 @@ export const refreshToken = async (req, res) => {
     await AccessToken.update({ token: newAccessToken }, { where: { userId: user.id } })
     res.status(200).json({ message: "Token refreshed successfully", data: { accessToken: newAccessToken } })
   } catch (error) {
-    console.error("Error refreshing token:", error)
-    res.status(500).json({ error: "Internal server error" })
+    res.status(500).json({ error: error })
   }
 }
