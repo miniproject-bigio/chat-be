@@ -45,7 +45,8 @@ const environments = {
   },
 }
 
-const NODE_ENV = "testing"
+// change this to switch between environments
+const NODE_ENV = "development"
 
 const selectedEnvironment = environments[NODE_ENV]
 
